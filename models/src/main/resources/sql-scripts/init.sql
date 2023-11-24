@@ -1,3 +1,5 @@
 INSERT INTO image_metadata (title, description, width, height, created, uri) VALUES ('Our first image', 'This is the first image that we created for the RSO course.', 1280, 1325, TIMESTAMP '2006-01-01 15:36:38', 'https://www.nasa.gov/sites/default/files/styles/full_width/public/thumbnails/image/tess_first_light-tb.jpg');
 INSERT INTO service_types (name, durationHours, cost) VALUES ('Basic', 1, 100);
+INSERT INTO employees (name) VALUES ('Janez');
+INSERT INTO employees_service_types (service_type_id, employee_id) VALUES (1,1);
 

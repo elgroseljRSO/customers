@@ -1,6 +1,7 @@
 package si.fri.rso.samples.imagecatalog.models.entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "service_types")
@@ -19,6 +20,10 @@ public class ServiceType {
     private Integer durationHours;
 
     private Integer cost;
+
+
+    @ManyToMany(mappedBy = "serviceTypes")
+    private Set<Employee> employees;
 
     public Integer getId() {
         return id;
@@ -51,4 +56,12 @@ public class ServiceType {
     public void setCost(Integer cost) {
         this.cost = cost;
     }
+
+//    public Set<Employee> getEmployees() {
+//        return employees;
+//    }
+//
+//    public void setEmployees(Set<Employee> employees) {
+//        this.employees = employees;
+//    }
 }
