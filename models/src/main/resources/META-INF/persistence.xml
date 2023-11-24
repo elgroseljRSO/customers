@@ -5,6 +5,8 @@
 
         <class>si.fri.rso.samples.imagecatalog.models.entities.ImageMetadataEntity</class>
         <class>si.fri.rso.samples.imagecatalog.models.converters.InstantAtributeConverter</class>
+        <class>si.fri.rso.samples.imagecatalog.models.entities.Employee</class>
+        <class>si.fri.rso.samples.imagecatalog.models.entities.ServiceType</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
