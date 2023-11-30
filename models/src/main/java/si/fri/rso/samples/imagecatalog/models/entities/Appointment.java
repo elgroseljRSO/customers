@@ -17,6 +17,11 @@ public class Appointment {
     private Integer start;
 //    private Integer finish;
 
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
+//    private ServiceType serviceType; #TODO
 
     public Integer getId() {
         return id;
@@ -65,7 +70,7 @@ public class Appointment {
         return employee;
     }
 
-    public void setEmployee(Employee employee_id) {
-        this.employee = employee_id;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }
