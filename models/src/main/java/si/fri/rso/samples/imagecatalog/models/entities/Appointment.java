@@ -17,9 +17,9 @@ public class Appointment {
     private Integer start;
 //    private Integer finish;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
+//    @ManyToOne
+//    @JoinColumn(name = "employee_id")
+//    private Employee employee;
 
 //    private ServiceType serviceType; #TODO
 
