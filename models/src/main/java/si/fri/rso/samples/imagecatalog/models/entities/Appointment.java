@@ -46,4 +46,15 @@ public class Appointment {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+//    @Column(name="customer") # TODO
+//    private String customer;
+//
+//    public String getCustomer() {
+//        return customer;
+//    }
+//
+//    public void setCustomer(String customer) {
+//        this.customer = customer;
+//    }
 }
