@@ -17,11 +17,7 @@ public class Appointment {
     private Integer start;
 //    private Integer finish;
 
-    @ManyToOne
-    @JoinColumn(name = "employee_id")
-    private Employee employee;
-
-//    private ServiceType serviceType; #TODO
+    //    private ServiceType serviceType; #TODO
 
     public Integer getId() {
         return id;
@@ -39,22 +35,38 @@ public class Appointment {
         this.start = start;
     }
 
+
+    private String customer;
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        customer = customer;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "service_type_id")
+    private ServiceType service_type;
+
+    public ServiceType getService_type() {
+        return service_type;
+    }
+
+    public void setService_type(ServiceType serviceType) {
+        this.service_type = serviceType;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
+    private Employee employee;
+
     public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
+    public void setEmployee(Employee employee_id) {
+        this.employee = employee_id;
     }
-
-//    @Column(name="customer") # TODO
-//    private String customer;
-//
-//    public String getCustomer() {
-//        return customer;
-//    }
-//
-//    public void setCustomer(String customer) {
-//        this.customer = customer;
-//    }
 }

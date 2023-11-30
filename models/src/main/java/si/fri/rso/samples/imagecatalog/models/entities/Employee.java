@@ -26,9 +26,6 @@ public class Employee {
     private Set<ServiceType> serviceTypes;
 
 
-    @OneToMany(mappedBy = "employee")
-    private Set<Appointment> appointments;
-
     public Integer getId() {
         return id;
     }
