@@ -14,33 +14,36 @@ spec:
     spec:
       containers:
 #        - image: prporso/image-catalog:test #to be changed
-        - image: turkiznazaba/appointments #to be changed
+#        - image: turkiznazaba/appointments #to be changed
+        - image: turkiznazaba/appointments:2023-11-30-21-04-12 #to be changed
+
           name: appointments
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
-              value: jdbc:postgres://ella.db.elephantsql.com/hdalyqbh
+              value: jdbc:postgresql://ella.db.elephantsql.com:5432/hdalyqbh
             - name: KUMULUZEE_DATASOURCES0_USERNAME
               value: hdalyqbh
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: dbpassword
-                  key: dbpassword
+              value: EfjnbNxlNDRLpxrUMApVIXn1L9meZ2Tb
+#              valueFrom:
+#                secretKeyRef:
+#                  name: dbpassword
+#                  key: dbpassword
           ports:
             - containerPort: 8080
               name: server
-          livenessProbe:
-            httpGet:
-              path: /health/live
-              port: server
-            initialDelaySeconds: 20
-            periodSeconds: 3
-          readinessProbe:
-            httpGet:
-              path: /health/ready
-              port: server
-            initialDelaySeconds: 20
-            periodSeconds: 3
+#          livenessProbe:
+#            httpGet:
+#              path: /health/live
+#              port: server
+#            initialDelaySeconds: 20
+#            periodSeconds: 3
+#          readinessProbe:
+#            httpGet:
+#              path: /health/ready
+#              port: server
+#            initialDelaySeconds: 20
+#            periodSeconds: 3
 
 ---
 
