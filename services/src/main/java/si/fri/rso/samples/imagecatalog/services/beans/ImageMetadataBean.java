@@ -13,7 +13,6 @@ import java.util.stream.Collectors;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 
-import org.eclipse.microprofile.metrics.annotation.Timed;
 
 import si.fri.rso.samples.imagecatalog.lib.ImageMetadata;
 import si.fri.rso.samples.imagecatalog.models.converters.ImageMetadataConverter;
@@ -39,7 +38,6 @@ public class ImageMetadataBean {
 
     }
 
-    @Timed
     public List<ImageMetadata> getImageMetadataFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)

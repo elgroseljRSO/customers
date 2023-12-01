@@ -24,7 +24,7 @@ public class EmployeeBean {
     @Inject
     private EntityManager em;
 
-    @Timed
+
     public List<Employee> getEmployeesFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)

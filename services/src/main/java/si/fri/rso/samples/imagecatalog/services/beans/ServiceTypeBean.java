@@ -20,7 +20,7 @@ public class ServiceTypeBean {
     @Inject
     private EntityManager em;
 
-    @Timed
+
     public List<ServiceType> getServiceTypesFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)

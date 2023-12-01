@@ -39,10 +39,10 @@
             <artifactId>image-catalog-services</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.kumuluz.ee.health</groupId>
-            <artifactId>kumuluzee-health</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.kumuluz.ee.health</groupId>-->
+<!--            <artifactId>kumuluzee-health</artifactId>-->
+<!--        </dependency>-->
 
         <dependency>
             <artifactId>kumuluzee-logs-log4j2</artifactId>

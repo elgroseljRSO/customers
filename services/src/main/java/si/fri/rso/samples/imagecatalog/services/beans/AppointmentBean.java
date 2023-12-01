@@ -20,7 +20,7 @@ public class AppointmentBean {
     @Inject
     private EntityManager em;
 
-    @Timed
+
     public List<Appointment> getAppointmentFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
