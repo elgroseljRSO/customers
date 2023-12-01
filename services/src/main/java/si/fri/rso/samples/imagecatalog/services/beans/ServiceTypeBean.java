@@ -2,7 +2,6 @@ package si.fri.rso.samples.imagecatalog.services.beans;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
-import org.eclipse.microprofile.metrics.annotation.Timed;
 import si.fri.rso.samples.imagecatalog.models.entities.ServiceType;
 
 import javax.enterprise.context.RequestScoped;
