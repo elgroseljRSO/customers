@@ -1,7 +1,9 @@
+#        - image: turkiznazaba/appointments:2023-12-01-09-21-36 #to be changed
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: image-catalog-deployment
+  name: appointments-deployment
 spec:
   replicas: 1
   selector:
@@ -13,11 +15,8 @@ spec:
         app: image-catalog
     spec:
       containers:
-#        - image: prporso/image-catalog:test #to be changed
-#        - image: turkiznazaba/appointments #to be changed
-        - image: turkiznazaba/appointments:2023-12-01-08-38-21 #to be changed
-
-          name: appointments
+        - image: turkiznazaba/appointments:2023-12-01-09-21-36 #to be changed
+          name: image-catalog
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
               value: jdbc:postgresql://ella.db.elephantsql.com:5432/hdalyqbh
@@ -25,32 +24,16 @@ spec:
               value: hdalyqbh
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               value: EfjnbNxlNDRLpxrUMApVIXn1L9meZ2Tb
-#              valueFrom:
-#                secretKeyRef:
-#                  name: dbpassword
-#                  key: dbpassword
           ports:
             - containerPort: 8080
               name: server
-#          livenessProbe:
-#            httpGet:
-#              path: /health/live
-#              port: server
-#            initialDelaySeconds: 20
-#            periodSeconds: 3
-#          readinessProbe:
-#            httpGet:
-#              path: /health/ready
-#              port: server
-#            initialDelaySeconds: 20
-#            periodSeconds: 3
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: appointments
+  name: image-catalog
 spec:
   type: LoadBalancer
   ports:
@@ -58,4 +41,4 @@ spec:
       protocol: TCP
       targetPort: server
   selector:
-    app: appointments
+    app: image-catalog
