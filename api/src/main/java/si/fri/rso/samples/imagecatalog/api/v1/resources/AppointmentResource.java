@@ -6,6 +6,7 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.headers.Header;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
+import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import si.fri.rso.samples.imagecatalog.models.entities.Appointment;
@@ -15,6 +16,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -48,4 +50,26 @@ public class AppointmentResource {
 
         return Response.status(Response.Status.OK).entity(appointments).build();
     }
+
+    @Operation(description = "Get all available appointments by service type.", summary = "Get all available appointments by service type.")
+    @APIResponses({
+            @APIResponse(responseCode = "200",
+                    description = "List of available appointments by service type",
+                    content = @Content(schema = @Schema(implementation = Appointment.class, type = SchemaType.ARRAY)),
+                    headers = {@Header(name = "X-Total-Count", description = "Number of objects in list")}
+            )})
+    @GET
+    @Path("/available/{serviceTypeId}")
+    public Response getAppointmentsAvailableByServiceType(@Parameter(description = "Service type id", required = true)
+                                                              @PathParam("serviceTypeId") Integer serviceTypeId) {
+
+        List<Appointment> appointments = appointmentBean.getAppointmentAvailableByServiceType(serviceTypeId);
+
+
+        return Response.status(Response.Status.OK).entity(appointments).build();
+    }
+
+
+
+
 }

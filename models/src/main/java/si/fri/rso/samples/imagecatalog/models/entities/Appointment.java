@@ -7,7 +7,9 @@ import javax.persistence.*;
 @NamedQueries(value =
         {
                 @NamedQuery(name = "Appointment.getAll",
-                        query = "SELECT a FROM Appointment a")
+                        query = "SELECT a FROM Appointment a"),
+//                @NamedQuery(name = "Appointment.getByServiceTypeId",
+//                        query = "SELECT a FROM Appointment a WHERE a.service_type.id = :service_type_id"),
         })
 public class Appointment {
     @Id
@@ -15,13 +17,7 @@ public class Appointment {
     private Integer id;
 
     private Integer start;
-//    private Integer finish;
 
-//    @ManyToOne
-//    @JoinColumn(name = "employee_id")
-//    private Employee employee;
-
-//    private ServiceType serviceType; #TODO
 
     public Integer getId() {
         return id;

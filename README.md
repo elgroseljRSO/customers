@@ -53,4 +53,9 @@ kubectl get secrets
 kubectl describe secret pg-pass
 ```
 
+for filters to work:
+```bash
+export JDK_JAVA_OPTIONS=--add-opens=java.base/java.lang=ALL-UNNAMED
+```
+
 
