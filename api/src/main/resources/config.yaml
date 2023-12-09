@@ -12,15 +12,10 @@ kumuluzee:
       connection-url: jdbc:postgresql://localhost:5432/image-metadata
       username: dbuser
       password: postgres
-#  health:
-#    checks:
-#      data-source-health-check:
-#        type: liveness
-#        jndi-name: jdbc/ImageMetadataDS
-#  metrics:
-#    web-instrumentation:
-#      - name: images-endpoint
-#        url-pattern: /v1/images/*
+  metrics:
+    web-instrumentation:
+      - name: appointments-endpoint
+        url-pattern: /v1/appointments/*
 
 #  logs:
 #    config-file: '<?xml version="1.0" encoding="UTF-8"?>
