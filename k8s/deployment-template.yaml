@@ -24,6 +24,11 @@ spec:
               value: hdalyqbh
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
               value: EfjnbNxlNDRLpxrUMApVIXn1L9meZ2Tb
+#            - name: KUMULUZEE_DATASOURCES0_PASSWORD #TODO check if it works
+#              valueFrom:
+#                secretKeyRef:
+#                  name: dbpassword
+#                  key: dbpassword
           ports:
             - containerPort: 8080
               name: server
