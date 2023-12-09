@@ -87,4 +87,42 @@ public class AppointmentBean {
         return availableAppointments;
     }
 
+    public Appointment createAppointment(int start,String customer,int serviceTypeId,int employeeId) {
+        ServiceType serviceType = em.find(ServiceType.class, serviceTypeId);
+        Employee employee = em.find(Employee.class, employeeId);
+        Appointment appointment = new Appointment(start, customer, serviceType, employee);
+        try {
+            beginTx();
+            em.persist(appointment);
+            commitTx();
+        }
+        catch (Exception e) {
+            rollbackTx();
+        }
+
+        if (appointment.getId() == null) {
+            throw new RuntimeException("Entity was not persisted");
+        }
+
+        return appointment;
+    }
+
+    private void beginTx() {
+        if (!em.getTransaction().isActive()) {
+            em.getTransaction().begin();
+        }
+    }
+
+    private void commitTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().commit();
+        }
+    }
+
+    private void rollbackTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+    }
+
 }

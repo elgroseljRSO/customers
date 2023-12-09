@@ -8,14 +8,18 @@ import org.eclipse.microprofile.openapi.annotations.headers.Header;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
+import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.json.JSONObject;
 import si.fri.rso.samples.imagecatalog.models.entities.Appointment;
+import si.fri.rso.samples.imagecatalog.models.entities.ServiceType;
 import si.fri.rso.samples.imagecatalog.services.beans.AppointmentBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.Context;
@@ -37,7 +41,7 @@ public class AppointmentResource {
     @Context
     protected UriInfo uriInfo;
 
-    @Operation(description = "Get all appointments.", summary = "Get all appointments.")
+    @Operation(description = "Get all appointments.", summary = "Get all appointments")
     @APIResponses({
             @APIResponse(responseCode = "200",
                     description = "List of appointments",
@@ -52,7 +56,7 @@ public class AppointmentResource {
         return Response.status(Response.Status.OK).entity(appointments).build();
     }
 
-    @Operation(description = "Get all available appointments by service type.", summary = "Get all available appointments by service type.")
+    @Operation(description = "Get all available appointments by service type.", summary = "Get all available appointments by service type")
     @APIResponses({
             @APIResponse(responseCode = "200",
                     description = "List of available appointments by service type",
@@ -68,6 +72,33 @@ public class AppointmentResource {
 
 
         return Response.status(Response.Status.OK).entity(appointments).build();
+    }
+
+
+    @Operation(description = "Add appointment.", summary = "Add appointment")
+    @APIResponses({
+            @APIResponse(responseCode = "201",
+                    description = "Appointment successfully added."
+            ),
+            @APIResponse(responseCode = "405", description = "Validation error.")
+    })
+    @POST
+    public Response createAppointment(@RequestBody(
+            description = "Object with appointment data",
+            required = true) String jsonString) {
+
+        JSONObject obj = new JSONObject(jsonString);
+        String customer = obj.getString("customer");
+        int start = obj.getInt("start");
+        int serviceTypeId = obj.getJSONObject("service_type").getInt("id");
+        int employeeId = obj.getJSONObject("employee").getInt("id");
+
+
+        Appointment appointment = appointmentBean.createAppointment(start,customer,serviceTypeId,employeeId);
+        return Response.status(Response.Status.OK).entity(appointment).build();
+
+
+
     }
 
 

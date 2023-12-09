@@ -69,4 +69,17 @@ public class Appointment {
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }
+
+    public Appointment() {}
+
+    public Appointment(String customer) {
+        this.customer = customer;
+    }
+
+    public Appointment(Integer start, String customer, ServiceType service_type, Employee employee) {
+        this.start = start;
+        this.customer = customer;
+        this.service_type = service_type;
+        this.employee = employee;
+    }
 }
