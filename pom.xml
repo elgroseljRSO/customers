@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>si.fri.rso.samples</groupId>
-    <artifactId>appointments</artifactId>
+    <artifactId>customers</artifactId>
     <version>1.0.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
@@ -87,17 +87,17 @@
 
             <dependency>
                 <groupId>si.fri.rso.samples</groupId>
-                <artifactId>appointments-api</artifactId>
+                <artifactId>customers-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>si.fri.rso.samples</groupId>
-                <artifactId>appointments-models</artifactId>
+                <artifactId>customers-models</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>si.fri.rso.samples</groupId>
-                <artifactId>appointments-services</artifactId>
+                <artifactId>customers-services</artifactId>
                 <version>${project.version}</version>
             </dependency>
 <!--            <dependency>-->
