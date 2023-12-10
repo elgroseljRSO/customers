@@ -14,7 +14,6 @@
         <module>api</module>
         <module>services</module>
         <module>models</module>
-        <module>lib</module>
     </modules>
 
     <properties>
@@ -101,11 +100,11 @@
                 <artifactId>appointments-services</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>si.fri.rso.samples</groupId>
-                <artifactId>appointments-lib</artifactId>
-                <version>${project.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>si.fri.rso.samples</groupId>-->
+<!--                <artifactId>appointments-lib</artifactId>-->
+<!--                <version>${project.version}</version>-->
+<!--            </dependency>-->
 
             <dependency>
                 <artifactId>kumuluzee-logs-log4j2</artifactId>

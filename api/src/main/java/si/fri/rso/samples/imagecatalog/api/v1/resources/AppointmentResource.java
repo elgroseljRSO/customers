@@ -13,7 +13,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.json.JSONObject;
 import si.fri.rso.samples.imagecatalog.models.entities.Appointment;
-import si.fri.rso.samples.imagecatalog.models.entities.ServiceType;
 import si.fri.rso.samples.imagecatalog.services.beans.AppointmentBean;
 
 import javax.enterprise.context.ApplicationScoped;
