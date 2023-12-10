@@ -7,6 +7,7 @@
         <class>si.fri.rso.samples.imagecatalog.models.entities.Employee</class>
         <class>si.fri.rso.samples.imagecatalog.models.entities.ServiceType</class>
         <class>si.fri.rso.samples.imagecatalog.models.entities.Appointment</class>
+        <class>si.fri.rso.samples.imagecatalog.models.entities.Customer</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
