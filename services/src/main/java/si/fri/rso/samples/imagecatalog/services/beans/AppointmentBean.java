@@ -2,8 +2,6 @@ package si.fri.rso.samples.imagecatalog.services.beans;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
-import org.eclipse.microprofile.metrics.annotation.Counted;
-import org.eclipse.microprofile.metrics.annotation.Timed;
 import si.fri.rso.samples.imagecatalog.models.entities.Appointment;
 import si.fri.rso.samples.imagecatalog.models.entities.Employee;
 import si.fri.rso.samples.imagecatalog.models.entities.ServiceType;
@@ -26,7 +24,7 @@ public class AppointmentBean {
     private EntityManager em;
 
 
-    @Counted(name = "appointmentFilterCounter")
+//    @Counted(name = "appointmentFilterCounter")
     public List<Appointment> getAppointmentFilter(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
@@ -35,7 +33,7 @@ public class AppointmentBean {
         return JPAUtils.queryEntities(em, Appointment.class, queryParameters);
     }
 
-    @Timed(name = "appointmentAvailableByServiceTypeTimer", unit = "milliseconds")
+//    @Timed(name = "appointmentAvailableByServiceTypeTimer", unit = "milliseconds")
     public List<Appointment> getAppointmentAvailableByServiceType(int serviceTypeId) {
         ServiceType serviceType = em.find(ServiceType.class, serviceTypeId);
 
