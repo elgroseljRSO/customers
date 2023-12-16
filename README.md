@@ -1,4 +1,4 @@
-# RSO: (Image metadata microservice) slowly becoming Appointments microservice
+# RSO: (Image metadata microservice) slowly becoming Customer microservice
 
 ## Prerequisites
 
