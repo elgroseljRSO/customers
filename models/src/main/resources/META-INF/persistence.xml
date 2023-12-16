@@ -3,10 +3,6 @@
     <persistence-unit name="image-catalog-jpa" transaction-type="RESOURCE_LOCAL">
         <non-jta-data-source>jdbc/ImageMetadataDS</non-jta-data-source>
 
-
-        <class>si.fri.rso.samples.imagecatalog.models.entities.Employee</class>
-        <class>si.fri.rso.samples.imagecatalog.models.entities.ServiceType</class>
-        <class>si.fri.rso.samples.imagecatalog.models.entities.Appointment</class>
         <class>si.fri.rso.samples.imagecatalog.models.entities.Customer</class>
 
         <properties>
