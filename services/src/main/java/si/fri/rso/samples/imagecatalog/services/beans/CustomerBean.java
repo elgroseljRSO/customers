@@ -14,7 +14,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.ByteArrayOutputStream;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,7 +42,41 @@ public class CustomerBean {
     }
 
 
-    public Customer createCustomer(String email) {
+    public Object createCustomer(String email) {
+        // check email validity
+        try{
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://mailcheck.p.rapidapi.com/?domain="+email))
+                .header("X-RapidAPI-Key", "709d75220emsh3a9ddc1e258796bp1d05c6jsn83f0d000c9f4")
+                .header("X-RapidAPI-Host", "mailcheck.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
+
+        JSONObject obj = new JSONObject(response.body());
+//        int start = obj.getInt("start");
+//        int serviceTypeId = obj.getJSONObject("service_type").getInt("id");
+        Boolean valid = obj.getBoolean("valid");
+        String text = obj.getString("text");
+        String reason = obj.getString("reason");
+        Integer risk = obj.getInt("risk");
+
+        if (risk > 40){
+            return text + ": " + reason;
+        }
+
+
+
+        log.info("EMAIL VALIDATION BODY: " + response.body());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            log.warning("EMAIL VALIDATION FAILED.");
+            return null;
+        }
+
+
         Customer customer = new Customer(0,email);
         try {
             beginTx();

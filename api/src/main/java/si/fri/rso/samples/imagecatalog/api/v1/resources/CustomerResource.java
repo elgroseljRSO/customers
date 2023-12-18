@@ -60,7 +60,10 @@ public class CustomerResource {
             @APIResponse(responseCode = "201",
                     description = "Customer successfully added."
             ),
-            @APIResponse(responseCode = "405", description = "Validation error.")
+            @APIResponse(responseCode = "405", description = "Validation error."),
+            @APIResponse(responseCode = "400", description = "Email validation error."),
+            @APIResponse(responseCode = "503", description = "E-mail Check service unavailable.")
+
     })
     @POST
     public Response createCustomer(@RequestBody(
@@ -68,11 +71,20 @@ public class CustomerResource {
             required = true) String jsonString) {
         try{
             JSONObject obj = new JSONObject(jsonString);
-            String email = obj.getString("customer");
+            String email = obj.getString("email");
 
-            Customer customer = customerBean.createCustomer(email);
-            int customerId = customer.getId();
-            return Response.status(Response.Status.CREATED).entity(customerId).build();
+            Object o = customerBean.createCustomer(email);
+            if (o instanceof Customer) {
+                int customerId = ((Customer)o).getId();
+                return Response.status(Response.Status.CREATED).entity(customerId).build();
+            }else if(o instanceof String){
+                return Response.status(Response.Status.BAD_REQUEST).entity(o).build();
+
+            }else{
+                return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+                // TODO fallback
+            }
+
         }
         catch (Exception e) {
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
