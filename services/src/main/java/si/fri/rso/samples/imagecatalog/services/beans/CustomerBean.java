@@ -8,6 +8,9 @@ import si.fri.rso.samples.imagecatalog.models.entities.Customer;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.ws.rs.core.UriInfo;
 import java.io.BufferedInputStream;
 import java.io.OutputStream;
@@ -43,6 +46,21 @@ public class CustomerBean {
 
 
     public Object createCustomer(String email) {
+        // check if email already exists
+
+        final CriteriaBuilder cbC = em.getCriteriaBuilder();
+        final CriteriaQuery<Customer> cqC = cbC.createQuery(Customer.class);
+        Root<Customer> rootC = cqC.from(Customer.class);
+
+
+        cqC.where(cbC.equal(rootC.get("email"), email));
+
+        List<Customer> customers = em.createQuery(cqC).getResultList();
+        int numCustomers = customers.size();
+        if (numCustomers > 0) {
+            return -1;
+        }
+
         // check email validity
         try{
         HttpRequest request = HttpRequest.newBuilder()
@@ -73,7 +91,7 @@ public class CustomerBean {
         catch (Exception e) {
             e.printStackTrace();
             log.warning("EMAIL VALIDATION FAILED.");
-            return null;
+            return -2;
         }
 
 

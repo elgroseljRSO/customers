@@ -62,7 +62,8 @@ public class CustomerResource {
             ),
             @APIResponse(responseCode = "405", description = "Validation error."),
             @APIResponse(responseCode = "400", description = "Email validation error."),
-            @APIResponse(responseCode = "503", description = "E-mail Check service unavailable.")
+            @APIResponse(responseCode = "503", description = "E-mail Check service unavailable."),
+            @APIResponse(responseCode = "409", description = "Email taken.")
 
     })
     @POST
@@ -80,15 +81,23 @@ public class CustomerResource {
             }else if(o instanceof String){
                 return Response.status(Response.Status.BAD_REQUEST).entity(o).build();
 
-            }else{
-                return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
-                // TODO fallback
+            }else if (o instanceof Integer){
+                if ((Integer)o == -1){
+                    return Response.status(Response.Status.CONFLICT).build();
+                }
+                else  {
+                    return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+                    // TODO fallback
+                }
+
+
             }
 
         }
         catch (Exception e) {
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
         }
+        return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
     }
 
 
