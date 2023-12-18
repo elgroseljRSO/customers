@@ -16,10 +16,7 @@ import si.fri.rso.samples.imagecatalog.services.beans.CustomerBean;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
@@ -130,6 +127,38 @@ public class CustomerResource {
 
         }
         return Response.status(Response.Status.BAD_REQUEST).build();
+
+    }
+
+
+    @Operation(description = "Refill money.", summary = "Refill money")
+    @APIResponses({
+            @APIResponse(
+                    responseCode = "200",
+                    description = "Money sucessfully updated."
+            ),
+            @APIResponse(
+                    responseCode = "404",
+                    description = "Customer not found."
+            ),
+            @APIResponse(responseCode = "405", description = "Validation error.")
+    })
+    @PUT
+    @Path("{id}/refill")
+    public Response putImageMetadata(@Parameter(description = "Customer ID.", required = true)
+                                     @PathParam("id") Integer id,
+                                     @RequestBody(
+                                             description = "JSON with amount of money to add.",
+                                             required = true) String jsonString){
+        Integer stat = customerBean.refillMoney(id, jsonString);
+
+        if (stat == -1) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }else if (stat == -2) {
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(stat).build();
 
     }
 

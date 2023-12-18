@@ -208,4 +208,37 @@ public class CustomerBean {
 
 
     }
+
+
+    public Integer refillMoney(Integer id, String jsonString) {
+        //parse JSON
+        Customer c;
+        Integer amount;
+        try{
+            JSONObject obj = new JSONObject(jsonString);
+            amount = obj.getInt("amount");
+            c = em.find(Customer.class, id);
+        }
+        catch (Exception e) {
+            return -2;
+        }
+
+
+        if (c == null) {
+            return -1;
+        }
+        int newMoney = 0;
+        try {
+            beginTx();
+            newMoney = c.getMoney() + amount;
+            c.setMoney(newMoney);
+            commitTx();
+        }
+        catch (Exception e) {
+            rollbackTx();
+        }
+
+        return newMoney;
+    }
+
 }
