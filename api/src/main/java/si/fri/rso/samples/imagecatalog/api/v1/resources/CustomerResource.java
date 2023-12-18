@@ -10,6 +10,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
+import org.json.JSONObject;
 import si.fri.rso.samples.imagecatalog.models.entities.Customer;
 import si.fri.rso.samples.imagecatalog.services.beans.CustomerBean;
 
@@ -52,6 +53,32 @@ public class CustomerResource {
 
         return Response.status(Response.Status.OK).entity(customers).build();
     }
+
+
+    @Operation(description = "Add customer.", summary = "Add customer")
+    @APIResponses({
+            @APIResponse(responseCode = "201",
+                    description = "Customer successfully added."
+            ),
+            @APIResponse(responseCode = "405", description = "Validation error.")
+    })
+    @POST
+    public Response createCustomer(@RequestBody(
+            description = "Object with customer email",
+            required = true) String jsonString) {
+        try{
+            JSONObject obj = new JSONObject(jsonString);
+            String email = obj.getString("customer");
+
+            Customer customer = customerBean.createCustomer(email);
+            int customerId = customer.getId();
+            return Response.status(Response.Status.CREATED).entity(customerId).build();
+        }
+        catch (Exception e) {
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
+        }
+    }
+
 
     @Operation(description = "Customer pays and confirms appointment.", summary = "Pay appointment")
     @APIResponses({

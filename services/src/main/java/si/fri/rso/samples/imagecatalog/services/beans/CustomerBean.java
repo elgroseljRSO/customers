@@ -37,6 +37,43 @@ public class CustomerBean {
         return JPAUtils.queryEntities(em, Customer.class, queryParameters);
     }
 
+
+    public Customer createCustomer(String email) {
+        Customer customer = new Customer(0,email);
+        try {
+            beginTx();
+            em.persist(customer);
+            commitTx();
+        }
+        catch (Exception e) {
+            rollbackTx();
+        }
+
+        if (customer.getId() == null) {
+            throw new RuntimeException("Entity was not persisted");
+        }
+
+        return customer;
+    }
+
+    private void beginTx() {
+        if (!em.getTransaction().isActive()) {
+            em.getTransaction().begin();
+        }
+    }
+
+    private void commitTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().commit();
+        }
+    }
+
+    private void rollbackTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
+    }
+
     public Integer payAppointment(int id, String jsonString) {
         Customer customer = em.find(Customer.class, id);
 
