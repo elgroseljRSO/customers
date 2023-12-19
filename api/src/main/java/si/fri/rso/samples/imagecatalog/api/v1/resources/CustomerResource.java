@@ -104,7 +104,8 @@ public class CustomerResource {
                     description = "Appointment successfully paid."
             ),
             @APIResponse(responseCode = "503", description = "Appointments service unavailable."),
-            @APIResponse(responseCode = "402", description = "Not enough money.")
+            @APIResponse(responseCode = "402", description = "Not enough money."),
+            @APIResponse(responseCode = "405", description = "Validation error.")
     })
     @POST
     @Path("/{id}/pay")
@@ -112,16 +113,18 @@ public class CustomerResource {
                                    @Parameter(description = "Customer id", required = true) @PathParam("id") Integer id) {
 
 
-        Integer appointmentId = customerBean.payAppointment(id, jsonString);
-        log.info("appointmentId: " + appointmentId);
-        if (appointmentId > 0) {
-            return Response.status(Response.Status.CREATED).entity(appointmentId).build();
+        Object o = customerBean.payAppointment(id, jsonString);
+        log.info("object: " + o);
+        if (o instanceof String) {
+            return Response.status(Response.Status.CREATED).entity(o).build();
         }
-        else {
-            if (appointmentId == -1) {
+        else if (o instanceof Integer) {
+            if ((int)o == -1) {
                 return Response.status(Response.Status.PAYMENT_REQUIRED).build();
-            }else if (appointmentId == -2) {
+            }else if ((int)o == -2) {
                 return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
+            }else if ((int)o == -3) {
+                return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
             }
 
 
@@ -150,15 +153,16 @@ public class CustomerResource {
                                      @RequestBody(
                                              description = "JSON with amount of money to add.",
                                              required = true) String jsonString){
-        Integer stat = customerBean.refillMoney(id, jsonString);
-
-        if (stat == -1) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        }else if (stat == -2) {
-            return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
+        Object o = customerBean.refillMoney(id, jsonString);
+        if (o instanceof Integer) {
+            if ((int)o == -1) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }else if ((int)o == -2) {
+                return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
+            }
         }
 
-        return Response.status(Response.Status.OK).entity(stat).build();
+        return Response.status(Response.Status.OK).entity(o).build();
 
     }
 

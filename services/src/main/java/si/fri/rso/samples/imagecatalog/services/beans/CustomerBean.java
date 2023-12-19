@@ -89,7 +89,7 @@ public class CustomerBean {
         log.info("EMAIL VALIDATION BODY: " + response.body());
         }
         catch (Exception e) {
-            e.printStackTrace();
+            
             log.warning("EMAIL VALIDATION FAILED.");
             return -2;
         }
@@ -112,37 +112,26 @@ public class CustomerBean {
         return customer;
     }
 
-    private void beginTx() {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
-        }
-    }
 
-    private void commitTx() {
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().commit();
-        }
-    }
-
-    private void rollbackTx() {
-        if (em.getTransaction().isActive()) {
-            em.getTransaction().rollback();
-        }
-    }
-
-    public Integer payAppointment(int id, String jsonString) {
+    public Object payAppointment(int id, String jsonString) {
         Customer customer = em.find(Customer.class, id);
 
-        JSONObject obj = new JSONObject(jsonString);
-        obj.put("customer", customer.getEmail());
-        jsonString = obj.toString();
-//        int start = obj.getInt("start");
-//        int serviceTypeId = obj.getJSONObject("service_type").getInt("id");
-        int cost = obj.getJSONObject("service_type").getInt("cost");
-//        int employeeId = obj.getJSONObject("employee").getInt("id");
+        int cost = -1;
+        try {
+            JSONObject obj = new JSONObject(jsonString);
+            obj.put("customer", customer.getEmail());
+            jsonString = obj.toString();
+            cost = obj.getJSONObject("service_type").getInt("cost");
+        } catch (Exception e) {
+            
+            log.warning("PARSING JSON FAILED.");
+            return -3;
+        }
+
 
         // check if you have enough money
         if (cost > customer.getMoney()) {
+            log.info("NOT ENOUGH MONEY.");
             return -1;
         }
 
@@ -163,7 +152,7 @@ public class CustomerBean {
 
             httpCon.connect();
         } catch (Exception e) {
-            e.printStackTrace();
+            
             log.warning("CONNECTION TO APPOINTMENTS FAILED.");
             return -2;
         }
@@ -179,38 +168,35 @@ public class CustomerBean {
                 result2 = bis.read();
             }
             result = buf.toString();
+            log.info("RESULT: " + result);
 //            System.out.println(result);
 
             // success, update money
 
         } catch (Exception e) {
-            e.printStackTrace();
-            log.warning("RETRIEVING ID OF NEW APPOINTMENT FAILED.");
+            
+            log.warning("RETRIEVING OF NEW APPOINTMENT FAILED.");
             return -2;
         }
 
         try {
-            int appointmentId = Integer.valueOf(result);
+//            JSONObject jsonObj = new JSONObject(result);
+//            int appointmentId = jsonObj.getInt("id");
             customer.setMoney(customer.getMoney() - cost);
 
-            return appointmentId;
+            return result;
         }
         catch (Exception e) {
-            e.printStackTrace();
+            
             log.warning("CHARGING FOR APPOINTMENT FAILED.");
             return -2;
         }
 
 
-
-
-
-
-
     }
 
 
-    public Integer refillMoney(Integer id, String jsonString) {
+    public Object refillMoney(Integer id, String jsonString) {
         //parse JSON
         Customer c;
         Integer amount;
@@ -238,7 +224,25 @@ public class CustomerBean {
             rollbackTx();
         }
 
-        return newMoney;
+        return c;
+    }
+
+    private void beginTx() {
+        if (!em.getTransaction().isActive()) {
+            em.getTransaction().begin();
+        }
+    }
+
+    private void commitTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().commit();
+        }
+    }
+
+    private void rollbackTx() {
+        if (em.getTransaction().isActive()) {
+            em.getTransaction().rollback();
+        }
     }
 
 }
