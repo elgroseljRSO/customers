@@ -80,8 +80,8 @@ public class CustomerBean {
         String reason = obj.getString("reason");
         Integer risk = obj.getInt("risk");
 
-        if (risk > 40){
-            return text + ": " + reason;
+        if (risk > 40 || !valid){
+            return response.body();
         }
 
 
@@ -115,10 +115,14 @@ public class CustomerBean {
 
     public Object payAppointment(int id, String jsonString) {
         Customer customer = em.find(Customer.class, id);
+        log.info("customer: "+customer);
 
         int cost = -1;
         try {
             JSONObject obj = new JSONObject(jsonString);
+            log.info("obj: "+obj);
+
+
             obj.put("customer", customer.getEmail());
             jsonString = obj.toString();
             cost = obj.getJSONObject("service_type").getInt("cost");

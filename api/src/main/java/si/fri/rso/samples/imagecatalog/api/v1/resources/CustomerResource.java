@@ -73,8 +73,7 @@ public class CustomerResource {
 
             Object o = customerBean.createCustomer(email);
             if (o instanceof Customer) {
-                int customerId = ((Customer)o).getId();
-                return Response.status(Response.Status.CREATED).entity(customerId).build();
+                return Response.status(Response.Status.CREATED).entity(o).build();
             }else if(o instanceof String){
                 return Response.status(Response.Status.BAD_REQUEST).entity(o).build();
 
