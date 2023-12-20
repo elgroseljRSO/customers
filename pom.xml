@@ -30,6 +30,7 @@
         <kumuluzee-metrics.version>3.0.0</kumuluzee-metrics.version>
         <kumuluzee-logs.version>1.4.6</kumuluzee-logs.version>
         <kumuluzee-cors.version>2.0.0</kumuluzee-cors.version>
+        <kumuluzee-fault-tolerance.version>2.1.1</kumuluzee-fault-tolerance.version>
 
     </properties>
 
@@ -117,6 +118,12 @@
                 <groupId>com.kumuluz.ee.cors</groupId>
                 <artifactId>kumuluzee-cors</artifactId>
                 <version>${kumuluzee-cors.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kumuluz.ee.fault.tolerance</groupId>
+                <artifactId>kumuluzee-fault-tolerance-smallrye</artifactId>
+                <version>${kumuluzee-fault-tolerance.version}</version>
             </dependency>
 
         </dependencies>

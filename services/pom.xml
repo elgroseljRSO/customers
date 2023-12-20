@@ -41,12 +41,17 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20190722</version>
+            <version>20230227</version>
         </dependency>
 
         <dependency>
             <groupId>si.fri.rso.samples</groupId>
             <artifactId>customers-models</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kumuluz.ee.fault.tolerance</groupId>
+            <artifactId>kumuluzee-fault-tolerance-smallrye</artifactId>
         </dependency>
 
     </dependencies>

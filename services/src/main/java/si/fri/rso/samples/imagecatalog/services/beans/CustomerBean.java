@@ -2,6 +2,9 @@ package si.fri.rso.samples.imagecatalog.services.beans;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.json.JSONObject;
 import si.fri.rso.samples.imagecatalog.models.entities.Customer;
 
@@ -11,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.UriInfo;
 import java.io.BufferedInputStream;
 import java.io.OutputStream;
@@ -22,6 +26,7 @@ import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -45,6 +50,54 @@ public class CustomerBean {
     }
 
 
+    @Timeout(value = 2, unit = ChronoUnit.SECONDS)
+    @CircuitBreaker(requestVolumeThreshold = 3)
+    @Fallback(fallbackMethod = "checkEmailFallback")
+    public Object checkEmail(String email) {
+        try {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("https://mailcheck.p.rapidapi.com/?domain=" + email))
+                    .header("X-RapidAPI-Key", "709d75220emsh3a9ddc1e258796bp1d05c6jsn83f0d000c9f4")
+                    .header("X-RapidAPI-Host", "mailcheck.p.rapidapi.com")
+                    .method("GET", HttpRequest.BodyPublishers.noBody())
+                    .build();
+//            HttpRequest request = HttpRequest.newBuilder()
+//                    .uri(URI.create("https://wrongnaslov.p.rapidapi.com/?domain=" + email))
+//                    .header("X-RapidAPI-Key", "wrongkey")
+//                    .header("X-RapidAPI-Host", "mailcheck.p.rapidapi.com")
+//                    .method("GET", HttpRequest.BodyPublishers.noBody())
+//                    .build();
+            HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+            System.out.println(response.body());
+
+            JSONObject obj = new JSONObject(response.body());
+            Boolean valid = obj.getBoolean("valid");
+            String text = obj.getString("text");
+            String reason = obj.getString("reason");
+            Integer risk = obj.getInt("risk");
+
+            if (risk > 40 || !valid) {
+                return response.body();
+            }
+            return null;
+
+        }
+        catch (Exception e) {
+            log.info("tuki");
+            log.severe(e.getMessage());
+            throw new InternalServerErrorException(e);
+        }
+
+    }
+
+    public Object checkEmailFallback(String email) {
+        log.info("FALLBACK");
+        if (email.contains("@")) {
+            return null;
+        }
+        return "{\"valid\":true,\"text\":\"OK\",\"reason\":\"All good.\",\"risk\":0}";
+    }
+
     public Object createCustomer(String email) {
         // check if email already exists
 
@@ -62,36 +115,9 @@ public class CustomerBean {
         }
 
         // check email validity
-        try{
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://mailcheck.p.rapidapi.com/?domain="+email))
-                .header("X-RapidAPI-Key", "709d75220emsh3a9ddc1e258796bp1d05c6jsn83f0d000c9f4")
-                .header("X-RapidAPI-Host", "mailcheck.p.rapidapi.com")
-                .method("GET", HttpRequest.BodyPublishers.noBody())
-                .build();
-        HttpResponse<String> response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
-
-        JSONObject obj = new JSONObject(response.body());
-//        int start = obj.getInt("start");
-//        int serviceTypeId = obj.getJSONObject("service_type").getInt("id");
-        Boolean valid = obj.getBoolean("valid");
-        String text = obj.getString("text");
-        String reason = obj.getString("reason");
-        Integer risk = obj.getInt("risk");
-
-        if (risk > 40 || !valid){
-            return response.body();
-        }
-
-
-
-        log.info("EMAIL VALIDATION BODY: " + response.body());
-        }
-        catch (Exception e) {
-            
-            log.warning("EMAIL VALIDATION FAILED.");
-            return -2;
+        Object o = checkEmail(email);
+        if (o instanceof String) {
+            return o;
         }
 
 
