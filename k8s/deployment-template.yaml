@@ -15,7 +15,7 @@ spec:
         app: customers
     spec:
       containers:
-        - image: turkiznazaba/customers:2023-12-20-10-11-30 #to be changed
+        - image: turkiznazaba/customers:2023-12-26-14-09-53 #to be changed
           name: customers
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL

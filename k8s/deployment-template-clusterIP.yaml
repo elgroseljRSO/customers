@@ -15,20 +15,25 @@ spec:
         app: customers
     spec:
       containers:
-        - image: turkiznazaba/customers:2023-12-20-10-11-30 #to be changed
+        - image: turkiznazaba/customers:2023-12-26-14-09-53 #to be changed
           name: customers
           env:
             - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
               value: jdbc:postgresql://ella.db.elephantsql.com:5432/hdalyqbh
             - name: KUMULUZEE_DATASOURCES0_USERNAME
               value: hdalyqbh
-            #            - name: KUMULUZEE_DATASOURCES0_PASSWORD
-            #              value: EfjnbNxlNDRLpxrUMApVIXn1L9meZ2Tb
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: dbpassword
-                  key: dbpassword
+              value: EfjnbNxlNDRLpxrUMApVIXn1L9meZ2Tb
+            #            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+            #              valueFrom:
+            #                secretKeyRef:
+            #                  name: dbpassword
+            #                  key: dbpassword
+            - name: URL_APPOINTMENTS
+#              value: http://20.81.4.29:8080/v1/appointments
+              value: http://20.242.208.205/appointments/v1/appointments
+
+
           ports:
             - containerPort: 8081
               name: server
