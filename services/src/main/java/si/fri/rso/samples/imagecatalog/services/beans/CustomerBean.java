@@ -2,6 +2,8 @@ package si.fri.rso.samples.imagecatalog.services.beans;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
+import org.eclipse.microprofile.config.Config;
+import org.eclipse.microprofile.config.ConfigProvider;
 import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import org.eclipse.microprofile.faulttolerance.Fallback;
 import org.eclipse.microprofile.faulttolerance.Timeout;
@@ -168,7 +170,14 @@ public class CustomerBean {
         HttpURLConnection httpCon;
         try {
             // make a post request to appointment catalog && update money
-            URL url = new URL("http://localhost:8080/v1/appointments");
+
+
+            Config config = ConfigProvider.getConfig();
+            String configValue = config.getValue("url.appointments", String.class);
+            log.info("URL: " + configValue);
+
+//            URL url = new URL("http://localhost:8080/v1/appointments");
+            URL url = new URL(configValue);
             httpCon = (HttpURLConnection) url.openConnection();
             httpCon.setDoOutput(true);
             httpCon.setRequestMethod("POST");

@@ -37,3 +37,6 @@ kumuluzee:
                                     </Root>
                                 </Loggers>
                             </Configuration>'
+
+url:
+  appointments: http://localhost:8080/v1/appointments
