@@ -22,15 +22,13 @@ spec:
               value: jdbc:postgresql://ella.db.elephantsql.com:5432/hdalyqbh
             - name: KUMULUZEE_DATASOURCES0_USERNAME
               value: hdalyqbh
+            #            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+            #              value: EfjnbNxlNDRLpxrUMApVIXn1L9meZ2Tb
             - name: KUMULUZEE_DATASOURCES0_PASSWORD
-              value: EfjnbNxlNDRLpxrUMApVIXn1L9meZ2Tb
-#            - name: KUMULUZEE_DATASOURCES0_PASSWORD
-#              valueFrom:
-#                secretKeyRef:
-#                  name: dbpassword
-#                  key: dbpassword
-            - name: URL_APPOINTMENTS
-              value: http://20.81.4.29:8080/v1/appointments
+              valueFrom:
+                secretKeyRef:
+                  name: dbpassword
+                  key: dbpassword
           ports:
             - containerPort: 8081
               name: server
@@ -54,7 +52,7 @@ kind: Service
 metadata:
   name: customers
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
     - port: 8081
       protocol: TCP
