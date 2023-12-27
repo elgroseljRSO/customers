@@ -8,4 +8,5 @@ RUN mkdir /app
 WORKDIR /app
 COPY --from=build ./app/api/target/customers-api-1.0.0-SNAPSHOT.jar /app
 EXPOSE 8080
+ENV JDK_JAVA_OPTIONS="--add-opens=java.base/java.lang=ALL-UNNAMED"
 CMD ["java", "-jar", "customers-api-1.0.0-SNAPSHOT.jar"]
