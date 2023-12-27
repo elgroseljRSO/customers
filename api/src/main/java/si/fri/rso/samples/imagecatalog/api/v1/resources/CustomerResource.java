@@ -145,7 +145,7 @@ public class CustomerResource {
             ),
             @APIResponse(responseCode = "405", description = "Validation error.")
     })
-    @PUT
+    @POST
     @Path("{id}/refill")
     public Response putImageMetadata(@Parameter(description = "Customer ID.", required = true)
                                      @PathParam("id") Integer id,
