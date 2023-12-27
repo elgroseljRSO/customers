@@ -104,7 +104,9 @@ public class CustomerResource {
             ),
             @APIResponse(responseCode = "503", description = "Appointments service unavailable."),
             @APIResponse(responseCode = "402", description = "Not enough money."),
-            @APIResponse(responseCode = "405", description = "Validation error.")
+            @APIResponse(responseCode = "405", description = "Validation error."),
+            @APIResponse(responseCode = "404", description = "Customer not found."),
+            @APIResponse(responseCode = "409", description = "Appointment already exists.")
     })
     @POST
     @Path("/{id}/pay")
@@ -118,12 +120,16 @@ public class CustomerResource {
             return Response.status(Response.Status.CREATED).entity(o).build();
         }
         else if (o instanceof Integer) {
-            if ((int)o == -1) {
+            if ((int)o == 0) {
+                return Response.status(Response.Status.NOT_FOUND).build();
+            }else if ((int)o == -1) {
                 return Response.status(Response.Status.PAYMENT_REQUIRED).build();
             }else if ((int)o == -2) {
                 return Response.status(Response.Status.SERVICE_UNAVAILABLE).build();
             }else if ((int)o == -3) {
                 return Response.status(Response.Status.METHOD_NOT_ALLOWED).build();
+            }else if ((int)o == -4) {
+                return Response.status(Response.Status.CONFLICT).build();
             }
 
 

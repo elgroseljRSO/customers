@@ -145,6 +145,10 @@ public class CustomerBean {
         Customer customer = em.find(Customer.class, id);
         log.info("customer: "+customer);
 
+        if (customer == null) {
+            return 0;
+        }
+
         int cost = -1;
         try {
             JSONObject obj = new JSONObject(jsonString);
@@ -196,16 +200,23 @@ public class CustomerBean {
             return -2;
         }
 
+
         String result;
         try {
-
+            int responseCode = httpCon.getResponseCode();
+            if (responseCode == 409) {
+                log.warning("APPOINTMENT ALREDY EXISTS.");
+                return -4;
+            }
             BufferedInputStream bis = new BufferedInputStream(httpCon.getInputStream());
             ByteArrayOutputStream buf = new ByteArrayOutputStream();
+
             int result2 = bis.read();
             while(result2 != -1) {
                 buf.write((byte) result2);
                 result2 = bis.read();
             }
+
             result = buf.toString();
             log.info("RESULT: " + result);
 //            System.out.println(result);
@@ -217,6 +228,7 @@ public class CustomerBean {
             log.warning("RETRIEVING OF NEW APPOINTMENT FAILED.");
             return -2;
         }
+
 
         try {
 //            JSONObject jsonObj = new JSONObject(result);
