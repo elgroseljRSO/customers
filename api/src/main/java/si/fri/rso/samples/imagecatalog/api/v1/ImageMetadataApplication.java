@@ -14,8 +14,8 @@ import org.eclipse.microprofile.openapi.annotations.servers.Server;
 @OpenAPIDefinition(info = @Info(title = "Customers API", version = "v1",
         contact = @Contact(email = "rso@fri.uni-lj.si"),
         license = @License(name = "dev"), description = "API for managing customers."),
-        servers = @Server(url = "http://localhost:8081/")
-//        servers = @Server(url = "http://20.242.208.205/customers/")
+//        servers = @Server(url = "http://localhost:8081/")
+        servers = @Server(url = "http://20.242.208.205/customers/")
 )
 
 @ApplicationPath("/v1")
