@@ -27,7 +27,6 @@
         <kumuluzee-config-mp.version>2.0.0</kumuluzee-config-mp.version>
         <postgresql.version>42.6.0</postgresql.version>
         <kumuluzee-health.version>2.4.4</kumuluzee-health.version>
-        <kumuluzee-metrics.version>3.0.0</kumuluzee-metrics.version>
         <kumuluzee-logs.version>1.4.6</kumuluzee-logs.version>
         <kumuluzee-cors.version>2.0.0</kumuluzee-cors.version>
         <kumuluzee-fault-tolerance.version>2.1.1</kumuluzee-fault-tolerance.version>

@@ -12,10 +12,16 @@ kumuluzee:
       connection-url: jdbc:postgresql://localhost:5432/image-metadata
       username: dbuser
       password: postgres
-  metrics:
-    web-instrumentation:
-      - name: appointments-endpoint
-        url-pattern: /v1/appointments/*
+      pool:
+        max-size: 4
+  dev:
+    scan-libraries:
+      - customers-models
+      - customers-services
+      - customers-lib
+    openapi-mp:
+      ui:
+        specification-server: http://20.242.208.205:8081
 
   logs:
     config-file: '<?xml version="1.0" encoding="UTF-8"?>
