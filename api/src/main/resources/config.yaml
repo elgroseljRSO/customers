@@ -21,6 +21,8 @@ kumuluzee:
   openapi-mp:
     ui:
       specification-server: http://20.242.208.205:8081
+    scanning:
+      debug: true
 
   logs:
     config-file: '<?xml version="1.0" encoding="UTF-8"?>
