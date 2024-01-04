@@ -18,7 +18,6 @@ kumuluzee:
     scan-libraries:
       - customers-models
       - customers-services
-      - customers-lib
     openapi-mp:
       ui:
         specification-server: http://20.242.208.205:8081
